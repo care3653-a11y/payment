@@ -18,7 +18,7 @@
   <nav class="bg-white shadow-sm border-b">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
       <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Logo_Blue_transparent.png" alt="Herzing University" class="h-11">
-      <a href="details.html" class="text-[#013066] hover:underline flex items-center gap-1">
+      <a href="details.html" class="text-[#013066] hover:underline flex items-center gap-2">
         ← Back to Student Details
       </a>
     </div>
@@ -26,12 +26,43 @@
 
   <div class="max-w-2xl mx-auto px-6 py-10">
     <h1 class="text-3xl font-semibold text-[#013066]">Choose Payment Method</h1>
-    <p id="amountDisplay" class="text-5xl font-bold text-[#013066] mt-1"></p>
+    <p id="amountDisplay" class="text-5xl font-bold text-[#013066] mt-2"></p>
 
     <div class="mt-12 space-y-6" id="methodsContainer"></div>
   </div>
 
-  <!-- PAYMENT PROCESSING STEP (Email / Student Confirmation) -->
+  <!-- FLOATING CHAT BUTTON -->
+  <div onclick="toggleChat()" 
+       class="fixed bottom-8 right-8 bg-[#013066] text-white w-16 h-16 rounded-3xl shadow-2xl flex items-center justify-center text-4xl cursor-pointer hover:scale-110 transition z-50">
+    💬
+  </div>
+
+  <!-- CHAT WINDOW -->
+  <div id="chatWindow" class="hidden fixed bottom-28 right-8 w-96 bg-white rounded-3xl shadow-2xl overflow-hidden z-50">
+    <div class="bg-[#013066] text-white p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-white/20 rounded-2xl flex items-center justify-center text-2xl">👩‍💼</div>
+        <div>
+          <p class="font-semibold">Herzing Support</p>
+          <p class="text-xs opacity-75">Live • Usually replies in &lt; 1 minute</p>
+        </div>
+      </div>
+      <i onclick="toggleChat()" class="fas fa-times text-2xl cursor-pointer"></i>
+    </div>
+    
+    <div id="chatMessages" class="h-96 p-4 overflow-y-auto bg-gray-50 space-y-4"></div>
+    
+    <div class="p-4 border-t bg-white">
+      <div class="flex gap-2">
+        <input id="chatInput" type="text" placeholder="Type your question here..." 
+               class="flex-1 px-5 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#51B1F7]">
+        <button onclick="sendMessage()" 
+                class="bg-[#013066] text-white px-8 rounded-3xl font-medium">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT PROCESSING STEP -->
   <div id="processingStep" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
     <div class="bg-white rounded-3xl p-10 max-w-lg w-full mx-4">
       <h2 id="processingTitle" class="text-3xl font-semibold text-[#013066] text-center">Payment Processing</h2>
@@ -41,17 +72,12 @@
         <label class="block text-sm font-medium text-gray-700 mb-4">Who is making this payment?</label>
         
         <div class="grid grid-cols-2 gap-4">
-          <!-- Parent Option -->
-          <button onclick="selectPayer('parent')" 
-                  id="parentBtn"
+          <button onclick="selectPayer('parent')" id="parentBtn"
                   class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#51B1F7] transition">
             <i class="fas fa-user-tie text-4xl mb-3 text-[#013066]"></i>
             <span class="font-semibold">Parent / Guardian</span>
           </button>
-
-          <!-- Student Option -->
-          <button onclick="selectPayer('student')" 
-                  id="studentBtn"
+          <button onclick="selectPayer('student')" id="studentBtn"
                   class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#51B1F7] transition">
             <i class="fas fa-graduation-cap text-4xl mb-3 text-[#013066]"></i>
             <span class="font-semibold">The Student</span>
@@ -61,9 +87,8 @@
         <!-- Parent Form -->
         <div id="parentForm" class="hidden mt-8">
           <label class="block text-sm font-medium text-gray-700 mb-2">Email address for updates</label>
-          <input id="parentEmail" type="email" 
-                 class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#51B1F7]"
-                 placeholder="youremail@example.com">
+          <input id="parentEmail" type="email" placeholder="youremail@example.com" 
+                 class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#51B1F7]">
           <p class="text-xs text-gray-500 mt-3">• Confirmation and receipt will be sent within up to 72 hours</p>
         </div>
 
@@ -79,8 +104,7 @@
           </div>
         </div>
 
-        <button onclick="continueToSuccess()" 
-                id="continueBtn"
+        <button onclick="continueToSuccess()" id="continueBtn"
                 class="hidden w-full mt-10 bg-[#013066] hover:bg-[#002244] text-white font-semibold py-5 rounded-3xl text-lg transition">
           Continue
         </button>
@@ -88,7 +112,7 @@
     </div>
   </div>
 
-  <!-- SUCCESS MODAL with PDF Download -->
+  <!-- SUCCESS MODAL -->
   <div id="successModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
     <div class="bg-white rounded-3xl p-10 max-w-md w-full mx-4 text-center">
       <div class="text-7xl mb-6">🎉</div>
@@ -111,18 +135,15 @@
   </div>
 
   <script>
-    // Get data from previous pages
+    // Get data from sessionStorage
     const selectedStudent = JSON.parse(sessionStorage.getItem('selectedStudent') || '{}');
     let amount = parseFloat(sessionStorage.getItem('paymentAmount') || 1250);
     let currentMethod = '';
-    let payerType = '';
-    let payerEmail = '';
 
-    // Display amount
     document.getElementById('amountDisplay').innerHTML = 
       `$${amount} <span class="text-2xl font-normal text-gray-500">USD</span>`;
 
-    // Fake random recipient generator (same as before)
+    // Random recipient info for ACH & Wire
     function generateRandomInfo(type) {
       const banks = ["Chase Bank", "Bank of America", "Wells Fargo", "U.S. Bank"];
       const routing = Math.floor(100000000 + Math.random() * 900000000).toString();
@@ -136,11 +157,10 @@
       };
     }
 
-    // Render all payment methods
+    // Render Payment Methods
     function renderMethods() {
       const container = document.getElementById('methodsContainer');
       container.innerHTML = `
-        <!-- Pay in Person -->
         <div onclick="showMethod(this, 'In Person')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-building text-4xl text-emerald-600"></i>
@@ -152,24 +172,16 @@
           <div class="mt-6 hidden method-content">
             <p><strong>Address:</strong> 525 W. North Avenue, Milwaukee, WI 53208</p>
             <p><strong>Hours:</strong> Monday–Friday, 8:30 AM – 4:30 PM</p>
-            <p class="mt-3">Bring your School ID and invoice. Cash, check, or money order accepted.</p>
-            <div class="bg-gray-100 p-4 rounded-2xl mt-4 text-center text-sm">
-              📱 Scan this QR to book an appointment slot
-            </div>
-            <button onclick="processPayment('In Person', event)" 
-                    class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">
-              I Have Paid In Person
-            </button>
+            <button onclick="processPayment('In Person', event)" class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">I Have Paid In Person</button>
           </div>
         </div>
 
-        <!-- Credit / Debit Card -->
         <div onclick="showMethod(this, 'Credit Card')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-credit-card text-4xl text-blue-600"></i>
             <div class="flex-1">
               <p class="font-semibold text-xl">Credit / Debit Card</p>
-              <p class="text-gray-600">Visa, Mastercard, Amex • $500 maximum per transaction</p>
+              <p class="text-gray-600">$500 maximum per transaction</p>
             </div>
           </div>
           <div class="mt-6 hidden method-content">
@@ -179,14 +191,10 @@
               <input type="text" value="12/28" class="px-5 py-4 border rounded-2xl">
               <input type="text" value="424" class="px-5 py-4 border rounded-2xl">
             </div>
-            <button onclick="processPayment('Credit Card', event)" 
-                    class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">
-              Pay $${Math.min(500, amount)} Now
-            </button>
+            <button onclick="processPayment('Credit Card', event)" class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">Pay $${Math.min(500, amount)} Now</button>
           </div>
         </div>
 
-        <!-- ACH Bank Transfer -->
         <div onclick="showMethod(this, 'ACH Transfer')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-bank text-4xl text-purple-600"></i>
@@ -203,16 +211,12 @@
                 <p><strong>Bank:</strong> ${info.bank}</p>
                 <p><strong>Routing #:</strong> ${info.routing} <span onclick="navigator.clipboard.writeText('${info.routing}');alert('Copied!')" class="cursor-pointer text-blue-600 text-xs">COPY</span></p>
                 <p><strong>Account #:</strong> ${info.account} <span onclick="navigator.clipboard.writeText('${info.account}');alert('Copied!')" class="cursor-pointer text-blue-600 text-xs">COPY</span></p>
-                <button onclick="processPayment('ACH Transfer', event)" 
-                        class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">
-                  Confirm ACH Transfer of $${amount}
-                </button>
+                <button onclick="processPayment('ACH Transfer', event)" class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">Confirm ACH Transfer of $${amount}</button>
               `;
             })()}
           </div>
         </div>
 
-        <!-- Wire Transfer -->
         <div onclick="showMethod(this, 'Wire Transfer')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-globe text-4xl text-amber-600"></i>
@@ -230,10 +234,7 @@
                 <p><strong>Routing #:</strong> ${info.routing}</p>
                 <p><strong>Account #:</strong> ${info.account}</p>
                 <p><strong>SWIFT:</strong> ${info.swift}</p>
-                <button onclick="processPayment('Wire Transfer', event)" 
-                        class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">
-                  Confirm Wire Transfer of $${amount}
-                </button>
+                <button onclick="processPayment('Wire Transfer', event)" class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">Confirm Wire Transfer of $${amount}</button>
               `;
             })()}
           </div>
@@ -246,123 +247,112 @@
       el.querySelector('.method-content').classList.remove('hidden');
     };
 
-    // Start processing for any method
     window.processPayment = function(method, e) {
       e.stopImmediatePropagation();
       currentMethod = method;
-      
-      // Reset processing modal
       document.getElementById('processingStep').classList.remove('hidden');
-      document.getElementById('parentForm').classList.add('hidden');
-      document.getElementById('studentForm').classList.add('hidden');
-      document.getElementById('continueBtn').classList.add('hidden');
-      
-      document.getElementById('processingTitle').textContent = 
-        method === 'In Person' ? 'In-Person Payment Confirmation' : 'Payment Processing';
-      
-      document.getElementById('processingSubtitle').textContent = 
-        method === 'In Person' 
-          ? 'Confirm your in-person payment details' 
-          : 'We need your contact details for confirmation';
     };
 
-    // Select payer type
+    // Payer selection
     window.selectPayer = function(type) {
-      payerType = type;
-      
-      // Highlight selected button
-      document.querySelectorAll('.payer-option').forEach(btn => btn.classList.remove('border-[#51B1F7]', 'bg-[#013066]/5'));
-      if (type === 'parent') {
-        document.getElementById('parentBtn').classList.add('border-[#51B1F7]', 'bg-[#013066]/5');
-      } else {
-        document.getElementById('studentBtn').classList.add('border-[#51B1F7]', 'bg-[#013066]/5');
-      }
+      document.querySelectorAll('.payer-option').forEach(b => b.classList.remove('border-[#51B1F7]', 'bg-[#013066]/5'));
+      if (type === 'parent') document.getElementById('parentBtn').classList.add('border-[#51B1F7]', 'bg-[#013066]/5');
+      else document.getElementById('studentBtn').classList.add('border-[#51B1F7]', 'bg-[#013066]/5');
 
-      // Show correct form
       document.getElementById('parentForm').classList.toggle('hidden', type !== 'parent');
       document.getElementById('studentForm').classList.toggle('hidden', type !== 'student');
-      
-      // Show continue button
       document.getElementById('continueBtn').classList.remove('hidden');
     };
 
-    // Continue to success
     window.continueToSuccess = function() {
-      if (payerType === 'parent') {
-        const emailInput = document.getElementById('parentEmail').value.trim();
-        if (!emailInput) {
-          alert("Please enter your email address");
-          return;
-        }
-        payerEmail = emailInput;
-      } else if (payerType === 'student') {
+      let payerEmail = '';
+      if (document.getElementById('parentForm').classList.contains('hidden') === false) {
+        payerEmail = document.getElementById('parentEmail').value.trim() || "parent.email@example.com";
+      } else {
         if (!document.getElementById('studentConfirm').checked) {
-          alert("Please confirm the checkbox");
+          alert("Please tick the confirmation box");
           return;
         }
-        // Auto-generate student email
-        const name = selectedStudent.name || "Student";
-        payerEmail = `${name.toLowerCase().replace(/\s+/g, '.')}@herzing.edu`;
+        payerEmail = `${selectedStudent.name ? selectedStudent.name.toLowerCase().replace(/\s+/g, '.') : 'student'}@herzing.edu`;
       }
 
-      // Hide processing and show success
       document.getElementById('processingStep').classList.add('hidden');
       document.getElementById('successModal').classList.remove('hidden');
 
-      // Success message
-      const msg = document.getElementById('successMessage');
-      if (payerType === 'student') {
-        msg.innerHTML = `Receipt has been sent to <strong>${payerEmail}</strong>`;
-      } else {
-        msg.innerHTML = `Confirmation and receipt will be sent to <strong>${payerEmail}</strong> within up to 72 hours`;
-      }
+      document.getElementById('successMessage').innerHTML = 
+        `Confirmation and receipt will be sent to <strong>${payerEmail}</strong>`;
     };
 
-    // Generate and download beautiful PDF receipt
+    // Download PDF Receipt
     window.downloadReceipt = function() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-
-      const today = new Date().toLocaleDateString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-      });
+      const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
       const txId = 'HU-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-      // Header
-      doc.setFontSize(24);
-      doc.setTextColor(1, 48, 102); // Herzing blue
-      doc.text("HERZING UNIVERSITY", 20, 25);
-      
-      doc.setFontSize(16);
-      doc.setTextColor(0, 0, 0);
-      doc.text("HUPay • Official Receipt", 20, 40);
-
-      // Divider
-      doc.setLineWidth(0.5);
-      doc.line(20, 48, 190, 48);
-
-      // Student info
+      doc.setFillColor(1, 48, 102);
+      doc.rect(0, 0, 210, 40, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(22);
+      doc.text("Herzing University", 105, 18, { align: "center" });
       doc.setFontSize(12);
-      doc.text(`Student: ${selectedStudent.name || 'Unknown Student'}`, 20, 60);
-      doc.text(`Program: ${selectedStudent.program || 'N/A'}`, 20, 68);
-      doc.text(`School ID: ${selectedStudent.schoolId || 'N/A'}`, 20, 76);
-      
-      // Payment details
-      doc.text(`Amount Paid: $${amount}`, 20, 92);
-      doc.text(`Payment Method: ${currentMethod}`, 20, 100);
-      doc.text(`Transaction ID: ${txId}`, 20, 108);
-      doc.text(`Date: ${today}`, 20, 116);
+      doc.text("Official Receipt • HUPay", 105, 28, { align: "center" });
 
-      // Footer note
-      doc.setFontSize(10);
-      doc.text("Thank you for your payment!", 20, 140);
-      doc.text("This is an official Herzing University receipt.", 20, 148);
-      doc.text("Questions? Contact bursar@herzing.edu", 20, 156);
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(14);
+      doc.text(`Date: ${today}`, 20, 55);
+      doc.text(`Transaction ID: ${txId}`, 20, 65);
+      doc.text(`Student: ${selectedStudent.name || 'Student'}`, 20, 80);
+      doc.text(`Program: ${selectedStudent.program || ''}`, 20, 88);
+      doc.text(`School ID: ${selectedStudent.schoolId || ''}`, 20, 96);
+      doc.setFontSize(16);
+      doc.text(`Amount Paid: $${amount}`, 20, 115);
+      doc.setFontSize(12);
+      doc.text(`Payment Method: ${currentMethod}`, 20, 130);
+      doc.text("Thank you for your payment!", 20, 150);
 
-      // Save
-      const fileName = `Herzing-Receipt-${(selectedStudent.name || 'Student').replace(/\s+/g, '-')}.pdf`;
-      doc.save(fileName);
+      doc.save(`Herzing_Receipt_${selectedStudent.schoolId || 'student'}.pdf`);
     };
+
+    // === CHAT FUNCTIONS ===
+    function toggleChat() {
+      const win = document.getElementById('chatWindow');
+      win.classList.toggle('hidden');
+      if (!win.classList.contains('hidden') && document.getElementById('chatMessages').children.length === 0) {
+        addMessage("Hi! 👋 How can I help you with your payment today?", "admin");
+      }
+    }
+
+    function addMessage(text, sender) {
+      const container = document.getElementById('chatMessages');
+      const msg = document.createElement('div');
+      msg.className = sender === 'admin' ? 'flex justify-start' : 'flex justify-end';
+      msg.innerHTML = `<div class="${sender === 'admin' ? 'bg-white shadow-sm' : 'bg-[#013066] text-white'} max-w-[80%] px-5 py-3 rounded-3xl">${text}</div>`;
+      container.appendChild(msg);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      input.value = '';
+
+      setTimeout(() => {
+        const replies = [
+          "Thanks for asking! Our team usually replies within 1 minute during business hours.",
+          "You can pay using any of the methods shown on this page.",
+          "All payments are secure and encrypted with bank-level security.",
+          "Need help choosing between ACH and Wire? I can explain the difference.",
+          "Your receipt will be emailed instantly after successful payment.",
+          "For in-person payments, bring your School ID to the Finance Office.",
+          "Would you like me to walk you through the steps?"
+        ];
+        const randomReply = replies[Math.floor(Math.random() * replies.length)];
+        addMessage(randomReply, "admin");
+      }, 1100);
+    }
 
     // Initialize page
     renderMethods();
