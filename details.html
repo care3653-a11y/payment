@@ -30,27 +30,11 @@
     const student = JSON.parse(sessionStorage.getItem('selectedStudent') || '{}');
     const container = document.getElementById('detailsContent');
 
-    // Creative fee breakdown for every student
     const feeBreakdowns = {
-      1: [ // Alex Rivera
-        { label: "Tuition Fee (Spring 2026)", amount: 950 },
-        { label: "Nursing Lab & Clinical Fee", amount: 150 },
-        { label: "Technology & Course Materials", amount: 100 },
-        { label: "Late Registration Fee", amount: 50 }
-      ],
-      2: [ // Jordan Patel
-        { label: "MBA Tuition Fee (Q2)", amount: 650 },
-        { label: "Program Administration Fee", amount: 120 },
-        { label: "Online Learning Platform Fee", amount: 80 },
-        { label: "Student Activity Fee", amount: 40 }
-      ],
-      3: [ // Taylor Kim
-        { label: "Tuition Fee (Spring 2026)", amount: 1100 },
-        { label: "IT Lab & Equipment Fee", amount: 450 },
-        { label: "Certification Exam Voucher", amount: 300 },
-        { label: "Technology Access Fee", amount: 250 }
-      ],
-      4: [ // Sherry Magics - NEW
+      1: [ { label: "Tuition Fee (Spring 2026)", amount: 950 }, { label: "Nursing Lab & Clinical Fee", amount: 150 }, { label: "Technology & Course Materials", amount: 100 }, { label: "Late Registration Fee", amount: 50 } ],
+      2: [ { label: "MBA Tuition Fee (Q2)", amount: 650 }, { label: "Program Administration Fee", amount: 120 }, { label: "Online Learning Platform Fee", amount: 80 }, { label: "Student Activity Fee", amount: 40 } ],
+      3: [ { label: "Tuition Fee (Spring 2026)", amount: 1100 }, { label: "IT Lab & Equipment Fee", amount: 450 }, { label: "Certification Exam Voucher", amount: 300 }, { label: "Technology Access Fee", amount: 250 } ],
+      4: [ // Sherry Magics
         { label: "Spring 2026 Tuition - Nursing & Healthcare", amount: 3200 },
         { label: "Clinical Rotations & Lab Fees", amount: 800 },
         { label: "Healthcare Program Materials & Uniforms", amount: 500 },
@@ -60,24 +44,22 @@
     };
 
     if (!student.name) {
-      container.innerHTML = `<p class="text-red-500">No student selected. <a href="index.html" class="underline">Go back</a></p>`;
+      container.innerHTML = `<p class="text-red-500 text-center py-20">No student selected. <a href="index.html" class="underline">Go back</a></p>`;
     } else {
       const breakdown = feeBreakdowns[student.id] || [];
       const totalDue = breakdown.reduce((sum, item) => sum + item.amount, 0);
 
-      // === STUDENT PICTURE (REPLACE WITH YOUR REAL IMAGE) ===
-      // Upload your picture and paste the direct link here ↓
-      const pictureUrl = "https://via.placeholder.com/320x320/013066/FFFFFF?text=Sherry"; 
-      // Example real link: "https://i.imgur.com/your-image.jpg"
-
       container.innerHTML = `
         <div class="flex flex-col md:flex-row gap-10 items-start">
-          <!-- Picture & Info -->
+          
+          <!-- Student Picture -->
           <div class="flex flex-col items-center md:items-start md:w-1/3">
-            <div class="w-40 h-40 mx-auto md:mx-0 rounded-3xl overflow-hidden border-4 border-[#51B1F7] shadow-md">
-              <img src="${pictureUrl}" alt="${student.name}" class="w-full h-full object-cover">
+            <div class="w-48 h-48 mx-auto md:mx-0 rounded-3xl overflow-hidden border-4 border-[#51B1F7] shadow-xl">
+              <img src="https://i.imgur.com/xFM6jzf.jpg" 
+                   alt="${student.name}" 
+                   class="w-full h-full object-cover">
             </div>
-            <h1 class="text-4xl font-semibold text-[#013066] mt-6">${student.name}</h1>
+            <h1 class="text-4xl font-semibold text-[#013066] mt-6 text-center md:text-left">${student.name}</h1>
             <p class="text-[#51B1F7] text-xl mt-1">${student.program}</p>
             <p class="text-gray-500 font-mono mt-2">School ID: <span class="font-semibold">${student.schoolId}</span></p>
           </div>
