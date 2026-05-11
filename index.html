@@ -22,50 +22,59 @@
   </nav>
 
   <div class="max-w-7xl mx-auto px-6 py-12">
-    <h1 class="text-4xl font-bold text-[#003087]">Students Owing Fees</h1>
-    <p class="text-gray-600 mt-2">Select a student to view detailed fees and make payment</p>
+    <!-- Search Bar -->
+    <div class="relative max-w-xl mx-auto mb-10">
+      <div class="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
+        <i class="fas fa-search"></i>
+      </div>
+      <input id="searchInput" type="text" placeholder="Search student by name..." 
+             class="w-full pl-12 pr-6 py-5 border border-gray-300 rounded-3xl text-lg focus:outline-none focus:border-[#003087]">
+    </div>
+
+    <h1 class="text-4xl font-bold text-[#003087] text-center mb-2">Students Owing Fees</h1>
+    <p class="text-gray-600 text-center">Select a student to view detailed fees and make payment</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10" id="studentsList"></div>
   </div>
 
   <script>
     const students = [
-      { id: 1, name: "Alex Rivera", program: "BSN • Nursing", schoolId: "HU-456789", due: 1250 },
-      { id: 2, name: "Jordan Patel", program: "MBA • Business Administration", schoolId: "HU-112233", due: 890 },
-      { id: 3, name: "Taylor Kim", program: "BS • Information Technology", schoolId: "HU-998877", due: 2100 },
-      { id: 4, name: "Sherry Magics", program: "Nursing & Healthcare", schoolId: "HU-334455", due: 6690 },
-      { id: 5, name: "Maria Gonzalez", program: "Medical Assisting", schoolId: "HU-556677", due: 2450 },
-      { id: 6, name: "Jamal Washington", program: "Criminal Justice", schoolId: "HU-778899", due: 1340 },
-      { id: 7, name: "Priya Sharma", program: "Healthcare Administration", schoolId: "HU-223344", due: 3780 },
-      { id: 8, name: "Carlos Mendoza", program: "Dental Hygiene", schoolId: "HU-667788", due: 2890 },
-      { id: 9, name: "Aisha Khan", program: "Radiologic Technology", schoolId: "HU-990011", due: 4120 },
-      { id: 10, name: "Liam Thompson", program: "BSN • Nursing", schoolId: "HU-445566", due: 1670 },
-      { id: 11, name: "Sophia Chen", program: "Graphic Design", schoolId: "HU-112244", due: 980 },
-      { id: 12, name: "Ethan Morales", program: "Business Management", schoolId: "HU-778811", due: 3150 },
-      { id: 13, name: "Olivia Patel", program: "Medical Billing & Coding", schoolId: "HU-334422", due: 1890 },
-      { id: 14, name: "Noah Williams", program: "IT Support Specialist", schoolId: "HU-556600", due: 2740 },
-      { id: 15, name: "Isabella Rodriguez", program: "Surgical Technology", schoolId: "HU-990022", due: 4520 },
-      { id: 16, name: "Mason Lee", program: "Pharmacy Technician", schoolId: "HU-223377", due: 1320 },
-      { id: 17, name: "Emma Davis", program: "Massage Therapy", schoolId: "HU-667799", due: 850 },
-      { id: 18, name: "Lucas Brown", program: "Public Health", schoolId: "HU-112255", due: 2980 },
-      { id: 19, name: "Zoe Garcia", program: "Veterinary Technology", schoolId: "HU-334488", due: 5210 }
+      { id: 1, name: "Alex Rivera", program: "BSN • Nursing", schoolId: "SPN-456789", due: 1250 },
+      { id: 2, name: "Jordan Patel", program: "MBA • Health Administration", schoolId: "SPN-112233", due: 890 },
+      { id: 3, name: "Taylor Kim", program: "BS • Lab Technology", schoolId: "SPN-998877", due: 2100 },
+      { id: 4, name: "Sherry Magics", program: "Nursing & Healthcare", schoolId: "SPN-144612", due: 6690 },
+      { id: 5, name: "Maria Gonzalez", program: "Medical Assisting", schoolId: "SPN-556677", due: 2450 },
+      { id: 6, name: "Jamal Washington", program: "Nursing & Healthcare", schoolId: "SPN-778899", due: 1340 },
+      { id: 7, name: "Priya Sharma", program: "Healthcare Administration", schoolId: "SPN-223344", due: 3780 },
+      { id: 8, name: "Carlos Mendoza", program: "Dental Hygiene", schoolId: "SPN-667788", due: 2890 },
+      { id: 9, name: "Aisha Khan", program: "Radiologic Technology", schoolId: "SPN-990011", due: 4120 },
+      { id: 10, name: "Liam Thompson", program: "BSN • Nursing", schoolId: "SPN-445566", due: 1670 },
+      { id: 11, name: "Sophia Chen", program: "Dental Hygiene", schoolId: "SPN-112244", due: 980 },
+      { id: 12, name: "Ethan Morales", program: "Health Management", schoolId: "SPN-778811", due: 3150 },
+      { id: 13, name: "Olivia Patel", program: "Medical Billing & Coding", schoolId: "SPN-334422", due: 1890 },
+      { id: 14, name: "Noah Williams", program: "IT Support Specialist", schoolId: "SPN-556600", due: 2740 },
+      { id: 15, name: "Isabella Rodriguez", program: "Surgical Technology", schoolId: "SPN-990022", due: 4520 },
+      { id: 16, name: "Mason Lee", program: "Pharmacy Technician", schoolId: "SPN-223377", due: 1320 },
+      { id: 17, name: "Emma Davis", program: "Massage Therapy", schoolId: "SPN-667799", due: 850 },
+      { id: 18, name: "Lucas Brown", program: "Public Health", schoolId: "SPN-112255", due: 2980 },
+      { id: 19, name: "Zoe Garcia", program: "Veterinary Technology", schoolId: "SPN-334488", due: 5210 }
     ];
 
-    function renderStudents() {
+    function renderStudents(filteredStudents) {
       const container = document.getElementById("studentsList");
-      container.innerHTML = students.map(student => `
+      container.innerHTML = filteredStudents.map(student => `
         <div onclick="selectStudent(${student.id})" class="bg-white rounded-3xl shadow-md hover:shadow-xl p-8 cursor-pointer transition border border-gray-100">
           <div class="flex justify-between items-start">
             <div>
               <p class="font-semibold text-2xl">${student.name}</p>
-              <p class="text-[#51B1F7]">${student.program}</p>
+              <p class="text-[#0066cc]">${student.program}</p>
             </div>
             <div class="text-right">
               <p class="text-xs uppercase tracking-widest text-red-500">Due</p>
-              <p class="text-4xl font-bold text-[#013066]">$${student.due}</p>
+              <p class="text-4xl font-bold text-[#003087]">$${student.due}</p>
             </div>
           </div>
-          <button class="mt-8 w-full bg-[#013066] text-white py-4 rounded-3xl font-medium flex items-center justify-center gap-2 hover:bg-[#002244]">
+          <button class="mt-8 w-full bg-[#003087] text-white py-4 rounded-3xl font-medium flex items-center justify-center gap-2 hover:bg-[#002266]">
             <i class="fas fa-credit-card"></i> View & Pay Fees
           </button>
         </div>
@@ -78,7 +87,24 @@
       window.location.href = 'login.html';
     };
 
-    renderStudents();
+    // Live Search Functionality
+    document.getElementById("searchInput").addEventListener("input", function(e) {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      
+      if (searchTerm === "") {
+        renderStudents(students);
+        return;
+      }
+
+      const filtered = students.filter(student => 
+        student.name.toLowerCase().includes(searchTerm)
+      );
+
+      renderStudents(filtered);
+    });
+
+    // Initial render
+    renderStudents(students);
   </script>
 </body>
 </html>
