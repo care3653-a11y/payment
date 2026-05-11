@@ -3,42 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Portal Login • Herzing University</title>
+  <title>Payment Portal Login • St. Paul School of Nursing</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap'); body{font-family:'Inter',sans-serif;}</style>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+  </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex items-center justify-center">
+
   <div class="max-w-md w-full mx-4">
     <div class="bg-white rounded-3xl shadow-2xl p-10">
+      <!-- Logo -->
       <div class="flex justify-center mb-8">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Logo_Blue_transparent.png" alt="Herzing" class="h-12">
+        <img src="https://i.imgur.com/rdosCLS.png" alt="St. Paul School of Nursing" class="h-16">
       </div>
-      <h1 class="text-3xl font-semibold text-center text-[#013066]">Payment Portal Login</h1>
-      <p class="text-center text-gray-600 mt-2">Enter your School ID and password</p>
+
+      <h1 class="text-3xl font-bold text-center text-[#003087]">Payment Portal Login</h1>
+      <p class="text-center text-gray-600 mt-2">Enter your School ID and Password</p>
 
       <form id="loginForm" class="mt-8 space-y-6">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">School ID</label>
-          <input id="schoolId" type="text" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#51B1F7]" placeholder="HU-456789">
+          <input id="schoolId" type="text" 
+                 class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#0066cc]" 
+                 placeholder="SPN-334455">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-          <input id="password" type="password" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#51B1F7]" placeholder="Enter password">
+          <input id="password" type="password" 
+                 class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#0066cc]" 
+                 placeholder="Enter password">
         </div>
 
         <button type="submit" id="loginBtn"
-          class="w-full bg-[#013066] hover:bg-[#002244] text-white py-5 rounded-3xl font-semibold text-lg transition">
+          class="w-full bg-[#003087] hover:bg-[#002266] text-white py-5 rounded-3xl font-semibold text-lg transition">
           Sign In
         </button>
       </form>
 
-      <p class="text-center text-xs text-gray-500 mt-8">Demo password for all students: <span class="font-mono">herzing2026</span></p>
+      <p class="text-center text-xs text-gray-500 mt-8">
+        Demo Password: <span class="font-mono bg-gray-100 px-2 py-1 rounded">spn2026</span>
+      </p>
     </div>
   </div>
 
   <script>
-    // Prefill school ID from session
+    // Prefill School ID
     const selected = JSON.parse(sessionStorage.getItem('selectedStudent') || '{}');
     if (selected.schoolId) document.getElementById('schoolId').value = selected.schoolId;
 
@@ -47,12 +59,11 @@
       const btn = document.getElementById('loginBtn');
       btn.innerHTML = 'Signing in...';
 
-      // Demo login (password is always "herzing2026")
       setTimeout(() => {
-        if (document.getElementById('password').value === 'herzing2026') {
+        if (document.getElementById('password').value === 'spn2026') {
           window.location.href = 'details.html';
         } else {
-          alert('Incorrect password. Demo password is: herzing2026');
+          alert('Incorrect password. Demo password is: spn2026');
           btn.innerHTML = 'Sign In';
         }
       }, 1200);
