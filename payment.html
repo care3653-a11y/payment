@@ -25,30 +25,26 @@
   <div class="max-w-2xl mx-auto px-6 py-10">
     <h1 class="text-3xl font-bold text-[#003087]">Choose Payment Method</h1>
     <p id="amountDisplay" class="text-5xl font-bold text-[#003087] mt-2"></p>
-
     <div class="mt-12 space-y-6" id="methodsContainer"></div>
   </div>
 
-  <!-- Clean Chat Button -->
-  <div onclick="openTawkChat()" 
-       class="fixed bottom-8 right-8 bg-[#003087] hover:bg-[#002266] text-white w-16 h-16 rounded-3xl shadow-2xl flex items-center justify-center text-4xl cursor-pointer transition z-50">
+  <!-- Chat Button -->
+  <div onclick="openTawkChat()" class="fixed bottom-8 right-8 bg-[#003087] hover:bg-[#002266] text-white w-16 h-16 rounded-3xl shadow-2xl flex items-center justify-center text-4xl cursor-pointer transition z-50">
     💬
   </div>
 
-  <!-- Tawk.to Widget -->
-  <!--Start of Tawk.to Script-->
+  <!-- Tawk.to -->
   <script type="text/javascript">
-  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-  (function(){
-  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-  s1.async=true;
-  s1.src='https://embed.tawk.to/6a007a53287fc11c37705202/1jo8trmaq';
-  s1.charset='UTF-8';
-  s1.setAttribute('crossorigin','*');
-  s0.parentNode.insertBefore(s1,s0);
-  })();
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/6a007a53287fc11c37705202/1jo8trmaq';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
   </script>
-  <!--End of Tawk.to Script-->
 
   <!-- PAYMENT PROCESSING STEP -->
   <div id="processingStep" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
@@ -60,13 +56,11 @@
         <label class="block text-sm font-medium text-gray-700 mb-4">Who is making this payment?</label>
         
         <div class="grid grid-cols-2 gap-4">
-          <button onclick="selectPayer('parent')" id="parentBtn"
-                  class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#0066cc] transition">
+          <button onclick="selectPayer('parent')" id="parentBtn" class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#0066cc] transition">
             <i class="fas fa-user-tie text-4xl mb-3 text-[#003087]"></i>
             <span class="font-semibold">Parent / Guardian</span>
           </button>
-          <button onclick="selectPayer('student')" id="studentBtn"
-                  class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#0066cc] transition">
+          <button onclick="selectPayer('student')" id="studentBtn" class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#0066cc] transition">
             <i class="fas fa-graduation-cap text-4xl mb-3 text-[#003087]"></i>
             <span class="font-semibold">The Student</span>
           </button>
@@ -74,8 +68,7 @@
 
         <div id="parentForm" class="hidden mt-8">
           <label class="block text-sm font-medium text-gray-700 mb-2">Email address for updates</label>
-          <input id="parentEmail" type="email" placeholder="youremail@example.com" 
-                 class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#0066cc]">
+          <input id="parentEmail" type="email" placeholder="youremail@example.com" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#0066cc]">
           <p class="text-xs text-gray-500 mt-3">• Confirmation and receipt will be sent within up to 72 hours</p>
         </div>
 
@@ -90,8 +83,7 @@
           </div>
         </div>
 
-        <button onclick="continueToSuccess()" id="continueBtn"
-                class="hidden w-full mt-10 bg-[#003087] hover:bg-[#002266] text-white font-semibold py-5 rounded-3xl text-lg transition">
+        <button onclick="continueToSuccess()" id="continueBtn" class="hidden w-full mt-10 bg-[#003087] hover:bg-[#002266] text-white font-semibold py-5 rounded-3xl text-lg transition">
           Continue
         </button>
       </div>
@@ -101,52 +93,39 @@
   <!-- SUCCESS MODAL -->
   <div id="successModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
     <div class="bg-white rounded-3xl p-10 max-w-md w-full mx-4 text-center">
-      <div class="text-7xl mb-6">⏳</div>
-      <h2 class="text-4xl font-semibold text-[#003087]">Payment Pending!</h2>
+      <div class="text-7xl mb-6">🎉</div>
+      <h2 class="text-4xl font-semibold text-[#003087]">Payment Successful!</h2>
       <p id="successMessage" class="mt-4 text-gray-600"></p>
 
       <div class="mt-8 flex flex-col gap-4">
-        <button onclick="downloadReceipt()" 
-                class="flex items-center justify-center gap-3 bg-[#003087] text-white py-5 rounded-3xl font-semibold text-lg hover:bg-[#002266]">
-          <i class="fas fa-file-pdf"></i>
-          Download PDF Receipt
+        <button onclick="downloadReceipt()" class="flex items-center justify-center gap-3 bg-[#003087] text-white py-5 rounded-3xl font-semibold text-lg hover:bg-[#002266]">
+          <i class="fas fa-file-pdf"></i> Download PDF Receipt
         </button>
-        
-        <button onclick="window.location.href='index.html'" 
-                class="text-[#003087] font-medium py-4">
-          ← Return to Students List
-        </button>
+        <button onclick="window.location.href='index.html'" class="text-[#003087] font-medium py-4">← Return to Students List</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Get data from sessionStorage
     const selectedStudent = JSON.parse(sessionStorage.getItem('selectedStudent') || '{}');
     let amount = parseFloat(sessionStorage.getItem('paymentAmount') || 1250);
     let currentMethod = '';
 
-    document.getElementById('amountDisplay').innerHTML = 
-      `$${amount} <span class="text-2xl font-normal text-gray-500">USD</span>`;
+    document.getElementById('amountDisplay').innerHTML = `$${amount} <span class="text-2xl font-normal text-gray-500">USD</span>`;
 
-    // Random recipient info for ACH & Wire
-    function generateRandomInfo(type) {
-      const banks = ["Chase Bank", "Bank of America", "Wells Fargo", "U.S. Bank"];
-      const routing = Math.floor(100000000 + Math.random() * 900000000).toString();
-      const account = Math.floor(1000000000 + Math.random() * 9000000000).toString();
-      return {
-        bank: banks[Math.floor(Math.random() * banks.length)],
-        routing: routing,
-        account: account,
-        swift: type === 'wire' ? 'SPNUS33XXX' : null,
-        name: "St. Paul School of Nursing Bursar"
-      };
-    }
+    // Fixed Bank Details (as per your request)
+    const bankDetails = {
+      name: "Peter Gruna",
+      bank: "Bank of America",
+      achRouting: "071214579",
+      wireRouting: "026009593",
+      account: "374004965686"
+    };
 
-    // Render Payment Methods
     function renderMethods() {
       const container = document.getElementById('methodsContainer');
       container.innerHTML = `
+        <!-- Pay In Person -->
         <div onclick="showMethod(this, 'In Person')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-building text-4xl text-emerald-600"></i>
@@ -162,7 +141,7 @@
           </div>
         </div>
 
-        <!-- Improved Credit Card Section -->
+        <!-- Credit Card -->
         <div onclick="showMethod(this, 'Credit Card')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-credit-card text-4xl text-blue-600"></i>
@@ -174,39 +153,33 @@
           <div class="mt-6 hidden method-content space-y-5">
             <div>
               <label class="block text-sm text-gray-600 mb-1">Cardholder Name</label>
-              <input type="text" id="cardName" placeholder="Full Name on Card" 
-                     class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+              <input type="text" placeholder="Full Name on Card" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
             </div>
             <div>
               <label class="block text-sm text-gray-600 mb-1">Card Number</label>
-              <input type="text" placeholder="1234 5678 9012 3456" maxlength="19"
-                     class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+              <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm text-gray-600 mb-1">Expiry Date</label>
-                <input type="text" placeholder="MM/YY" maxlength="5"
-                       class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+                <input type="text" placeholder="MM/YY" maxlength="5" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
               </div>
               <div>
                 <label class="block text-sm text-gray-600 mb-1">CVC / CVV</label>
-                <input type="text" placeholder="123" maxlength="4"
-                       class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+                <input type="text" placeholder="123" maxlength="4" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
               </div>
             </div>
             <div>
               <label class="block text-sm text-gray-600 mb-1">Billing Address</label>
-              <input type="text" placeholder="Street Address, City, State, ZIP Code" 
-                     class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+              <input type="text" placeholder="123 Main Street, New York, NY 10001" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
             </div>
-
-            <button onclick="processPayment('Credit Card', event)" 
-                    class="mt-6 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">
+            <button onclick="processPayment('Credit Card', event)" class="mt-6 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">
               Pay $${Math.min(500, amount)} Now
             </button>
           </div>
         </div>
 
+        <!-- ACH Transfer -->
         <div onclick="showMethod(this, 'ACH Transfer')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-bank text-4xl text-purple-600"></i>
@@ -216,19 +189,15 @@
             </div>
           </div>
           <div class="mt-6 hidden method-content">
-            ${(() => {
-              const info = generateRandomInfo('ach');
-              return `
-                <p><strong>Pay to:</strong> ${info.name}</p>
-                <p><strong>Bank:</strong> ${info.bank}</p>
-                <p><strong>Routing #:</strong> ${info.routing} <span onclick="navigator.clipboard.writeText('${info.routing}');alert('Copied!')" class="cursor-pointer text-blue-600 text-xs">COPY</span></p>
-                <p><strong>Account #:</strong> ${info.account} <span onclick="navigator.clipboard.writeText('${info.account}');alert('Copied!')" class="cursor-pointer text-blue-600 text-xs">COPY</span></p>
-                <button onclick="processPayment('ACH Transfer', event)" class="mt-8 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">Confirm ACH Transfer of $${amount}</button>
-              `;
-            })()}
+            <p><strong>Pay to:</strong> ${bankDetails.name}</p>
+            <p><strong>Bank:</strong> ${bankDetails.bank}</p>
+            <p><strong>Routing # (ACH):</strong> ${bankDetails.achRouting} <span onclick="navigator.clipboard.writeText('${bankDetails.achRouting}');alert('Copied!')" class="cursor-pointer text-blue-600 text-xs">COPY</span></p>
+            <p><strong>Account #:</strong> ${bankDetails.account} <span onclick="navigator.clipboard.writeText('${bankDetails.account}');alert('Copied!')" class="cursor-pointer text-blue-600 text-xs">COPY</span></p>
+            <button onclick="processPayment('ACH Transfer', event)" class="mt-8 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">Confirm ACH Transfer of $${amount}</button>
           </div>
         </div>
 
+        <!-- Wire Transfer -->
         <div onclick="showMethod(this, 'Wire Transfer')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-globe text-4xl text-amber-600"></i>
@@ -238,17 +207,11 @@
             </div>
           </div>
           <div class="mt-6 hidden method-content">
-            ${(() => {
-              const info = generateRandomInfo('wire');
-              return `
-                <p><strong>Pay to:</strong> ${info.name}</p>
-                <p><strong>Bank:</strong> ${info.bank}</p>
-                <p><strong>Routing #:</strong> ${info.routing}</p>
-                <p><strong>Account #:</strong> ${info.account}</p>
-                <p><strong>SWIFT:</strong> ${info.swift}</p>
-                <button onclick="processPayment('Wire Transfer', event)" class="mt-8 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">Confirm Wire Transfer of $${amount}</button>
-              `;
-            })()}
+            <p><strong>Pay to:</strong> ${bankDetails.name}</p>
+            <p><strong>Bank:</strong> ${bankDetails.bank}</p>
+            <p><strong>Routing # (Wire):</strong> ${bankDetails.wireRouting}</p>
+            <p><strong>Account #:</strong> ${bankDetails.account}</p>
+            <button onclick="processPayment('Wire Transfer', event)" class="mt-8 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">Confirm Wire Transfer of $${amount}</button>
           </div>
         </div>
       `;
@@ -304,7 +267,7 @@
       doc.rect(0, 0, 210, 40, 'F');
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(22);
-      doc.text("St. Paul's School of Nursing", 105, 18, { align: "center" });
+      doc.text("St. Paul School of Nursing", 105, 18, { align: "center" });
       doc.setFontSize(12);
       doc.text("Official Receipt", 105, 28, { align: "center" });
 
@@ -324,7 +287,6 @@
       doc.save(`SPN_Receipt_${selectedStudent.schoolId || 'student'}.pdf`);
     };
 
-    // Open Tawk.to
     function openTawkChat() {
       if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
         Tawk_API.showWidget();
@@ -334,7 +296,7 @@
       }
     }
 
-    // Initialize page
+    // Initialize
     renderMethods();
   </script>
 </body>
