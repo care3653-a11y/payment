@@ -300,12 +300,13 @@
       doc.save(`Herzing_Receipt_${selectedStudent.schoolId || 'student'}.pdf`);
     };
 
-    // === CHAT FUNCTIONS ===
-    function toggleChat() {
-      const win = document.getElementById('chatWindow');
-      win.classList.toggle('hidden');
-      if (!win.classList.contains('hidden') && document.getElementById('chatMessages').children.length === 0) {
-        addMessage("Hi! 👋 How can I help you with your payment today?", "admin");
+    // === Open Tawk.to Chat ===
+    function openTawkChat() {
+      if (window.Tawk_API) {
+        window.Tawk_API.showWidget();
+        window.Tawk_API.maximize();
+      } else {
+        alert("Chat is loading... Please wait a moment and try again.");
       }
     }
 
