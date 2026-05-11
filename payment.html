@@ -48,6 +48,17 @@
     })();
   </script>
 
+  <script>
+  // Auto-hide Tawk.to default widget and prepare it
+  window.addEventListener('load', function() {
+    setTimeout(() => {
+      if (typeof Tawk_API !== "undefined") {
+        Tawk_API.hideWidget();
+      }
+    }, 2000);
+  });
+</script>
+
   <!-- PAYMENT PROCESSING STEP -->
   <div id="processingStep" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
     <div class="bg-white rounded-3xl p-10 max-w-lg w-full mx-4">
