@@ -298,15 +298,28 @@
       doc.save(`SPN_Receipt_${selectedStudent.schoolId || 'student'}.pdf`);
     };
 
-    // Open Tawk.to Chat
-    function openTawkChat() {
+   // Open Tawk.to Chat - Improved Version
+function openTawkChat() {
+  if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
+    Tawk_API.showWidget();
+    Tawk_API.maximize();
+  } else {
+    // Show a nicer message and retry automatically
+    const btn = document.querySelector('.fixed.bottom-8');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳';
+    
+    setTimeout(() => {
       if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
         Tawk_API.showWidget();
         Tawk_API.maximize();
       } else {
-        alert("Chat is still loading. Please wait 3 seconds and try again.");
+        alert("Chat is still loading. Please refresh the page and try again.");
       }
-    }
+      btn.innerHTML = originalText;
+    }, 2500);
+  }
+}
 
     // Initialize page
     renderMethods();
