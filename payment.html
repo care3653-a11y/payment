@@ -309,22 +309,37 @@
       doc.save(`SPN_Receipt_${selectedStudent.schoolId || 'student'}.pdf`);
     };
 
-  // === Open Tawk.to Chat - No Timeout Message ===
-function openTawkChat() {
-  if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
-    Tawk_API.showWidget();
-    Tawk_API.maximize();
-  } else {
-    // Silent retry every 1 second (no message to user)
-    const check = setInterval(() => {
+ // === Open Tawk.to (Very Reliable) ===
+    function openTawkChat() {
+      console.log("Chat button clicked"); // For debugging
+
       if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
         Tawk_API.showWidget();
         Tawk_API.maximize();
-        clearInterval(check);
+      } else {
+        // Silent retry
+        let attempts = 0;
+        const interval = setInterval(() => {
+          attempts++;
+          if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
+            Tawk_API.showWidget();
+            Tawk_API.maximize();
+            clearInterval(interval);
+          }
+          if (attempts > 8) {
+            clearInterval(interval);
+            alert("Chat is taking longer to load. Please refresh the page.");
+          }
+        }, 800);
       }
-    }, 1000);
-  }
-}
+    }
+
+    // Auto hide default widget
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (typeof Tawk_API !== "undefined") Tawk_API.hideWidget();
+      }, 2500);
+    });
 
     // Initialize page
     renderMethods();
