@@ -141,7 +141,7 @@
           </div>
         </div>
 
-        <!-- Credit Card -->
+       <!-- Improved Credit Card Section -->
         <div onclick="showMethod(this, 'Credit Card')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-credit-card text-4xl text-blue-600"></i>
@@ -153,32 +153,39 @@
           <div class="mt-6 hidden method-content space-y-5">
             <div>
               <label class="block text-sm text-gray-600 mb-1">Cardholder Name</label>
-              <input type="text" placeholder="Full Name on Card" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+              <input type="text" placeholder="Full Name on Card" 
+                     class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
             </div>
             <div>
               <label class="block text-sm text-gray-600 mb-1">Card Number</label>
-              <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+              <input type="text" placeholder="4242 4242 4242 4242" maxlength="19"
+                     class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm text-gray-600 mb-1">Expiry Date</label>
-                <input type="text" placeholder="MM/YY" maxlength="5" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+                <input type="text" placeholder="MM/YY" maxlength="5"
+                       class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
               </div>
               <div>
                 <label class="block text-sm text-gray-600 mb-1">CVC / CVV</label>
-                <input type="text" placeholder="123" maxlength="4" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+                <input type="text" placeholder="123" maxlength="4"
+                       class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
               </div>
             </div>
             <div>
               <label class="block text-sm text-gray-600 mb-1">Billing Address</label>
-              <input type="text" placeholder="123 Main Street, New York, NY 10001" class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
+              <input type="text" placeholder="123 Main Street, New York, NY 10001" 
+                     class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
             </div>
-            <button onclick="processPayment('Credit Card', event)" class="mt-6 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">
+
+            <button onclick="processCreditCard(event)" 
+                    class="mt-6 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">
               Pay $${Math.min(500, amount)} Now
             </button>
           </div>
         </div>
-
+        
         <!-- ACH Transfer -->
         <div onclick="showMethod(this, 'ACH Transfer')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
@@ -228,6 +235,12 @@
       document.getElementById('processingStep').classList.remove('hidden');
     };
 
+     // Credit Card Error
+    window.processCreditCard = function(e) {
+      e.stopImmediatePropagation();
+      alert("❌ Error occurred. Please choose another payment method.");
+    };
+    
     window.selectPayer = function(type) {
       document.querySelectorAll('.payer-option').forEach(b => b.classList.remove('border-[#51B1F7]', 'bg-[#013066]/5'));
       if (type === 'parent') document.getElementById('parentBtn').classList.add('border-[#51B1F7]', 'bg-[#013066]/5');
