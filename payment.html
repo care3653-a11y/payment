@@ -6,7 +6,6 @@
   <title>Choose Payment Method • St. Paul School of Nursing</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
@@ -26,37 +25,28 @@
   <div class="max-w-2xl mx-auto px-6 py-10">
     <h1 class="text-3xl font-bold text-[#003087]">Choose Payment Method</h1>
     <p id="amountDisplay" class="text-5xl font-bold text-[#003087] mt-2"></p>
+
     <div class="mt-12 space-y-6" id="methodsContainer"></div>
   </div>
 
-  <!-- Message Button -->
-  <div onclick="showMessageForm()" 
+  <!-- Clean Chat Button -->
+  <div onclick="openTawkChat()" 
        class="fixed bottom-8 right-8 bg-[#003087] hover:bg-[#002266] text-white w-16 h-16 rounded-3xl shadow-2xl flex items-center justify-center text-4xl cursor-pointer transition z-50">
-    ✉️
+    💬
   </div>
 
-  <!-- Message Form Modal -->
-  <div id="messageModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
-    <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4">
-      <h3 class="text-2xl font-bold text-[#003087]">Send Message to Finance Team</h3>
-      <p class="text-gray-600 mt-1">We will reply via email shortly</p>
-
-      <textarea id="userMessage" rows="5" 
-                class="w-full mt-6 p-5 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]"
-                placeholder="Type your question or message here..."></textarea>
-
-      <div class="mt-6 flex gap-4">
-        <button onclick="sendMessageToEmail()" 
-                class="flex-1 bg-[#003087] text-white py-4 rounded-3xl font-medium">
-          Send Message
-        </button>
-        <button onclick="hideMessageForm()" 
-                class="flex-1 border border-gray-300 py-4 rounded-3xl font-medium">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- Tawk.to Live Chat -->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/6a007a53287fc11c37705202/default';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
 
   <!-- PAYMENT PROCESSING STEP -->
   <div id="processingStep" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
@@ -119,6 +109,7 @@
           <i class="fas fa-file-pdf"></i>
           Download PDF Receipt
         </button>
+        
         <button onclick="window.location.href='index.html'" 
                 class="text-[#003087] font-medium py-4">
           ← Return to Students List
@@ -128,11 +119,7 @@
   </div>
 
   <script>
-    // Initialize EmailJS
-    (function() {
-      emailjs.init("whvQfPK6g7JgKJUs5");
-    })();
-
+    // Get data from sessionStorage
     const selectedStudent = JSON.parse(sessionStorage.getItem('selectedStudent') || '{}');
     let amount = parseFloat(sessionStorage.getItem('paymentAmount') || 1250);
     let currentMethod = '';
@@ -140,40 +127,7 @@
     document.getElementById('amountDisplay').innerHTML = 
       `$${amount} <span class="text-2xl font-normal text-gray-500">USD</span>`;
 
-    function showMessageForm() {
-      document.getElementById('messageModal').classList.remove('hidden');
-    }
-
-    function hideMessageForm() {
-      document.getElementById('messageModal').classList.add('hidden');
-    }
-
-    function sendMessageToEmail() {
-      const messageText = document.getElementById('userMessage').value.trim();
-      if (!messageText) {
-        alert("Please type your message");
-        return;
-      }
-
-      const templateParams = {
-        student_name: selectedStudent.name || "Unknown Student",
-        school_id: selectedStudent.schoolId || "N/A",
-        amount: amount,
-        message: messageText
-      };
-
-      emailjs.send('service_xcli0fs', 'template_nl7pl0e', templateParams)
-        .then(() => {
-          alert("✅ Message sent successfully! We will reply via email soon.");
-          hideMessageForm();
-          document.getElementById('userMessage').value = '';
-        })
-        .catch((err) => {
-          console.error(err);
-          alert("Failed to send message. Please try again.");
-        });
-    }
-
+    // Random recipient info for ACH & Wire
     function generateRandomInfo(type) {
       const banks = ["Chase Bank", "Bank of America", "Wells Fargo", "U.S. Bank"];
       const routing = Math.floor(100000000 + Math.random() * 900000000).toString();
@@ -187,6 +141,7 @@
       };
     }
 
+    // Render Payment Methods
     function renderMethods() {
       const container = document.getElementById('methodsContainer');
       container.innerHTML = `
@@ -341,7 +296,41 @@
       doc.save(`SPN_Receipt_${selectedStudent.schoolId || 'student'}.pdf`);
     };
 
-    // Initialize
+    // === Open Tawk.to Chat - Silent Retry (No Annoying Message) ===
+    function openTawkChat() {
+      console.log("💬 Chat button clicked");
+
+      if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
+        Tawk_API.showWidget();
+        Tawk_API.maximize();
+      } else {
+        // Silent retry
+        let attempts = 0;
+        const interval = setInterval(() => {
+          attempts++;
+          if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
+            Tawk_API.showWidget();
+            Tawk_API.maximize();
+            clearInterval(interval);
+          }
+          if (attempts > 12) {  // ~10 seconds max wait
+            clearInterval(interval);
+            console.log("Tawk.to still not loaded");
+          }
+        }, 800);
+      }
+    }
+
+    // Auto hide default widget
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (typeof Tawk_API !== "undefined") {
+          Tawk_API.hideWidget();
+        }
+      }, 2500);
+    });
+
+    // Initialize page
     renderMethods();
   </script>
 </body>
