@@ -29,13 +29,13 @@
     <div class="mt-12 space-y-6" id="methodsContainer"></div>
   </div>
 
-   <!-- Custom Chat Button (Visible & Clear) -->
+  <!-- Clean Chat Button -->
   <div onclick="openTawkChat()" 
        class="fixed bottom-8 right-8 bg-[#003087] hover:bg-[#002266] text-white w-16 h-16 rounded-3xl shadow-2xl flex items-center justify-center text-4xl cursor-pointer transition z-50">
     💬
   </div>
-  
-  <!-- Tawk.to Live Chat (Real Admin Support) -->
+
+  <!-- Tawk.to Live Chat -->
   <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
@@ -48,21 +48,10 @@
     })();
   </script>
 
-  <script>
-  // Ensure Tawk.to is ready
-  window.addEventListener('load', function() {
-    if (typeof Tawk_API !== "undefined") {
-      Tawk_API.onLoad = function() {
-        Tawk_API.hideWidget(); // Hide default widget, we use our button
-      };
-    }
-  });
-</script>
-  
   <!-- PAYMENT PROCESSING STEP -->
   <div id="processingStep" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
     <div class="bg-white rounded-3xl p-10 max-w-lg w-full mx-4">
-      <h2 id="processingTitle" class="text-3xl font-semibold text-[#013066] text-center">Payment Processing</h2>
+      <h2 id="processingTitle" class="text-3xl font-semibold text-[#003087] text-center">Payment Processing</h2>
       <p id="processingSubtitle" class="text-center text-gray-600 mt-2">We need your contact details for confirmation</p>
 
       <div class="mt-8">
@@ -70,13 +59,13 @@
         
         <div class="grid grid-cols-2 gap-4">
           <button onclick="selectPayer('parent')" id="parentBtn"
-                  class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#51B1F7] transition">
-            <i class="fas fa-user-tie text-4xl mb-3 text-[#013066]"></i>
+                  class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#0066cc] transition">
+            <i class="fas fa-user-tie text-4xl mb-3 text-[#003087]"></i>
             <span class="font-semibold">Parent / Guardian</span>
           </button>
           <button onclick="selectPayer('student')" id="studentBtn"
-                  class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#51B1F7] transition">
-            <i class="fas fa-graduation-cap text-4xl mb-3 text-[#013066]"></i>
+                  class="payer-option flex flex-col items-center justify-center border-2 border-transparent rounded-3xl py-6 hover:border-[#0066cc] transition">
+            <i class="fas fa-graduation-cap text-4xl mb-3 text-[#003087]"></i>
             <span class="font-semibold">The Student</span>
           </button>
         </div>
@@ -85,24 +74,24 @@
         <div id="parentForm" class="hidden mt-8">
           <label class="block text-sm font-medium text-gray-700 mb-2">Email address for updates</label>
           <input id="parentEmail" type="email" placeholder="youremail@example.com" 
-                 class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#51B1F7]">
+                 class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#0066cc]">
           <p class="text-xs text-gray-500 mt-3">• Confirmation and receipt will be sent within up to 72 hours</p>
         </div>
 
         <!-- Student Form -->
         <div id="studentForm" class="hidden mt-8">
           <div class="flex items-start gap-3">
-            <input type="checkbox" id="studentConfirm" class="mt-1 w-5 h-5 accent-[#013066]">
+            <input type="checkbox" id="studentConfirm" class="mt-1 w-5 h-5 accent-[#003087]">
             <div>
               <label for="studentConfirm" class="text-sm text-gray-700">
-                Payment confirmation will be sent to the student's official Herzing email address
+                Payment confirmation will be sent to the student's official school email
               </label>
             </div>
           </div>
         </div>
 
         <button onclick="continueToSuccess()" id="continueBtn"
-                class="hidden w-full mt-10 bg-[#013066] hover:bg-[#002244] text-white font-semibold py-5 rounded-3xl text-lg transition">
+                class="hidden w-full mt-10 bg-[#003087] hover:bg-[#002266] text-white font-semibold py-5 rounded-3xl text-lg transition">
           Continue
         </button>
       </div>
@@ -113,18 +102,18 @@
   <div id="successModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
     <div class="bg-white rounded-3xl p-10 max-w-md w-full mx-4 text-center">
       <div class="text-7xl mb-6">🎉</div>
-      <h2 class="text-4xl font-semibold text-[#013066]">Payment Successful!</h2>
+      <h2 class="text-4xl font-semibold text-[#003087]">Payment Successful!</h2>
       <p id="successMessage" class="mt-4 text-gray-600"></p>
 
       <div class="mt-8 flex flex-col gap-4">
         <button onclick="downloadReceipt()" 
-                class="flex items-center justify-center gap-3 bg-[#013066] text-white py-5 rounded-3xl font-semibold text-lg hover:bg-[#002244]">
+                class="flex items-center justify-center gap-3 bg-[#003087] text-white py-5 rounded-3xl font-semibold text-lg hover:bg-[#002266]">
           <i class="fas fa-file-pdf"></i>
           Download PDF Receipt
         </button>
         
         <button onclick="window.location.href='index.html'" 
-                class="text-[#013066] font-medium py-4">
+                class="text-[#003087] font-medium py-4">
           ← Return to Students List
         </button>
       </div>
@@ -149,8 +138,8 @@
         bank: banks[Math.floor(Math.random() * banks.length)],
         routing: routing,
         account: account,
-        swift: type === 'wire' ? 'HRZGUS33XXX' : null,
-        name: "Herzing University Bursar"
+        swift: type === 'wire' ? 'SPNUS33XXX' : null,
+        name: "St. Paul School of Nursing Bursar"
       };
     }
 
@@ -167,9 +156,9 @@
             </div>
           </div>
           <div class="mt-6 hidden method-content">
-            <p><strong>Address:</strong> 97-77 Queens Blvd, Rego Park, NY 11374, United States</p>
+            <p><strong>Address:</strong> 97-77 Queens Blvd, Rego Park, NY 11374</p>
             <p><strong>Hours:</strong> Monday–Friday, 8:30 AM – 4:30 PM</p>
-            <button onclick="processPayment('In Person', event)" class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">I Have Paid In Person</button>
+            <button onclick="processPayment('In Person', event)" class="mt-8 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">I Have Paid In Person</button>
           </div>
         </div>
 
@@ -188,7 +177,7 @@
               <input type="text" value="12/28" class="px-5 py-4 border rounded-2xl">
               <input type="text" value="424" class="px-5 py-4 border rounded-2xl">
             </div>
-            <button onclick="processPayment('Credit Card', event)" class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">Pay $${Math.min(500, amount)} Now</button>
+            <button onclick="processPayment('Credit Card', event)" class="mt-8 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">Pay $${Math.min(500, amount)} Now</button>
           </div>
         </div>
 
@@ -208,7 +197,7 @@
                 <p><strong>Bank:</strong> ${info.bank}</p>
                 <p><strong>Routing #:</strong> ${info.routing} <span onclick="navigator.clipboard.writeText('${info.routing}');alert('Copied!')" class="cursor-pointer text-blue-600 text-xs">COPY</span></p>
                 <p><strong>Account #:</strong> ${info.account} <span onclick="navigator.clipboard.writeText('${info.account}');alert('Copied!')" class="cursor-pointer text-blue-600 text-xs">COPY</span></p>
-                <button onclick="processPayment('ACH Transfer', event)" class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">Confirm ACH Transfer of $${amount}</button>
+                <button onclick="processPayment('ACH Transfer', event)" class="mt-8 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">Confirm ACH Transfer of $${amount}</button>
               `;
             })()}
           </div>
@@ -231,7 +220,7 @@
                 <p><strong>Routing #:</strong> ${info.routing}</p>
                 <p><strong>Account #:</strong> ${info.account}</p>
                 <p><strong>SWIFT:</strong> ${info.swift}</p>
-                <button onclick="processPayment('Wire Transfer', event)" class="mt-8 w-full bg-[#013066] text-white py-5 rounded-3xl text-lg font-medium">Confirm Wire Transfer of $${amount}</button>
+                <button onclick="processPayment('Wire Transfer', event)" class="mt-8 w-full bg-[#003087] text-white py-5 rounded-3xl text-lg font-medium">Confirm Wire Transfer of $${amount}</button>
               `;
             })()}
           </div>
@@ -250,7 +239,6 @@
       document.getElementById('processingStep').classList.remove('hidden');
     };
 
-    // Payer selection
     window.selectPayer = function(type) {
       document.querySelectorAll('.payer-option').forEach(b => b.classList.remove('border-[#51B1F7]', 'bg-[#013066]/5'));
       if (type === 'parent') document.getElementById('parentBtn').classList.add('border-[#51B1F7]', 'bg-[#013066]/5');
@@ -270,7 +258,7 @@
           alert("Please tick the confirmation box");
           return;
         }
-        payerEmail = `${selectedStudent.name ? selectedStudent.name.toLowerCase().replace(/\s+/g, '.') : 'student'}@herzing.edu`;
+        payerEmail = `${selectedStudent.name ? selectedStudent.name.toLowerCase().replace(/\s+/g, '.') : 'student'}@stpaul.edu`;
       }
 
       document.getElementById('processingStep').classList.add('hidden');
@@ -280,20 +268,19 @@
         `Confirmation and receipt will be sent to <strong>${payerEmail}</strong>`;
     };
 
-    // Download PDF Receipt
     window.downloadReceipt = function() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-      const txId = 'HU-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+      const txId = 'SPN-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-      doc.setFillColor(1, 48, 102);
+      doc.setFillColor(0, 48, 135);
       doc.rect(0, 0, 210, 40, 'F');
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(22);
-      doc.text("Herzing University", 105, 18, { align: "center" });
+      doc.text("St. Paul School of Nursing", 105, 18, { align: "center" });
       doc.setFontSize(12);
-      doc.text("Official Receipt • HUPay", 105, 28, { align: "center" });
+      doc.text("Official Receipt", 105, 28, { align: "center" });
 
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(14);
@@ -308,48 +295,17 @@
       doc.text(`Payment Method: ${currentMethod}`, 20, 130);
       doc.text("Thank you for your payment!", 20, 150);
 
-      doc.save(`Herzing_Receipt_${selectedStudent.schoolId || 'student'}.pdf`);
+      doc.save(`SPN_Receipt_${selectedStudent.schoolId || 'student'}.pdf`);
     };
 
-    // === Open Tawk.to Chat ===
-function openTawkChat() {
-  if (typeof Tawk_API !== "undefined") {
-    Tawk_API.showWidget();
-    Tawk_API.maximize();
-  } else {
-    alert("Chat is still loading. Please wait 2-3 seconds and try again.");
-  }
-}
-
-    function addMessage(text, sender) {
-      const container = document.getElementById('chatMessages');
-      const msg = document.createElement('div');
-      msg.className = sender === 'admin' ? 'flex justify-start' : 'flex justify-end';
-      msg.innerHTML = `<div class="${sender === 'admin' ? 'bg-white shadow-sm' : 'bg-[#013066] text-white'} max-w-[80%] px-5 py-3 rounded-3xl">${text}</div>`;
-      container.appendChild(msg);
-      container.scrollTop = container.scrollHeight;
-    }
-
-    function sendMessage() {
-      const input = document.getElementById('chatInput');
-      const text = input.value.trim();
-      if (!text) return;
-      addMessage(text, 'user');
-      input.value = '';
-
-      setTimeout(() => {
-        const replies = [
-          "Thanks for asking! Our team usually replies within 1 minute during business hours.",
-          "You can pay using any of the methods shown on this page.",
-          "All payments are secure and encrypted with bank-level security.",
-          "Need help choosing between ACH and Wire? I can explain the difference.",
-          "Your receipt will be emailed instantly after successful payment.",
-          "For in-person payments, bring your School ID to the Finance Office.",
-          "Would you like me to walk you through the steps?"
-        ];
-        const randomReply = replies[Math.floor(Math.random() * replies.length)];
-        addMessage(randomReply, "admin");
-      }, 1100);
+    // Open Tawk.to Chat
+    function openTawkChat() {
+      if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
+        Tawk_API.showWidget();
+        Tawk_API.maximize();
+      } else {
+        alert("Chat is still loading. Please wait 3 seconds and try again.");
+      }
     }
 
     // Initialize page
