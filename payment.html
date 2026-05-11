@@ -48,6 +48,17 @@
     })();
   </script>
 
+  <script>
+  // Ensure Tawk.to is ready
+  window.addEventListener('load', function() {
+    if (typeof Tawk_API !== "undefined") {
+      Tawk_API.onLoad = function() {
+        Tawk_API.hideWidget(); // Hide default widget, we use our button
+      };
+    }
+  });
+</script>
+  
   <!-- PAYMENT PROCESSING STEP -->
   <div id="processingStep" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
     <div class="bg-white rounded-3xl p-10 max-w-lg w-full mx-4">
@@ -152,7 +163,7 @@
             <i class="fas fa-building text-4xl text-emerald-600"></i>
             <div class="flex-1">
               <p class="font-semibold text-xl">Pay In Person at Finance Department</p>
-              <p class="text-gray-600">Milwaukee Campus • Building A, Room 120</p>
+              <p class="text-gray-600">New York Campus • Building A, Room 120</p>
             </div>
           </div>
           <div class="mt-6 hidden method-content">
@@ -301,14 +312,14 @@
     };
 
     // === Open Tawk.to Chat ===
-    function openTawkChat() {
-      if (window.Tawk_API) {
-        window.Tawk_API.showWidget();
-        window.Tawk_API.maximize();
-      } else {
-        alert("Chat is loading... Please wait a moment and try again.");
-      }
-    }
+function openTawkChat() {
+  if (typeof Tawk_API !== "undefined") {
+    Tawk_API.showWidget();
+    Tawk_API.maximize();
+  } else {
+    alert("Chat is still loading. Please wait 2-3 seconds and try again.");
+  }
+}
 
     function addMessage(text, sender) {
       const container = document.getElementById('chatMessages');
