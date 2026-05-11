@@ -18,7 +18,7 @@
   <nav class="bg-white shadow border-b">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
       <img src="https://i.imgur.com/rdosCLS.png" alt="St. Paul School of Nursing" class="h-14">
-      <a href="details.html" class="text-[#003087] hover:underline">← Back to Details</a>
+      <a href="details.html" class="text-[#003087] hover:underline font-medium">← Back to Details</a>
     </div>
   </nav>
 
@@ -29,47 +29,16 @@
     <div class="mt-12 space-y-6" id="methodsContainer"></div>
   </div>
 
-  <!-- FLOATING CHAT BUTTON -->
-  <div onclick="toggleChat()" 
-       class="fixed bottom-8 right-8 bg-[#013066] text-white w-16 h-16 rounded-3xl shadow-2xl flex items-center justify-center text-4xl cursor-pointer hover:scale-110 transition z-50">
-    💬
-  </div>
-
-  <!-- CHAT WINDOW -->
-  <div id="chatWindow" class="hidden fixed bottom-28 right-8 w-96 bg-white rounded-3xl shadow-2xl overflow-hidden z-50">
-    <div class="bg-[#013066] text-white p-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 bg-white/20 rounded-2xl flex items-center justify-center text-2xl">👩‍💼</div>
-        <div>
-          <p class="font-semibold">St Paul Support</p>
-          <p class="text-xs opacity-75">Live • Usually replies in &lt; 1 minute</p>
-        </div>
-      </div>
-      <i onclick="toggleChat()" class="fas fa-times text-2xl cursor-pointer"></i>
-    </div>
-    
-    <div id="chatMessages" class="h-96 p-4 overflow-y-auto bg-gray-50 space-y-4"></div>
-    
-    <div class="p-4 border-t bg-white">
-      <div class="flex gap-2">
-        <input id="chatInput" type="text" placeholder="Type your question here..." 
-               class="flex-1 px-5 py-4 border border-gray-300 rounded-3xl focus:outline-none focus:border-[#51B1F7]">
-        <button onclick="sendMessage()" 
-                class="bg-[#013066] text-white px-8 rounded-3xl font-medium">Send</button>
-      </div>
-    </div>
-  </div>
-
-    <!-- Tawk.to Live Chat -->
+  <!-- Tawk.to Live Chat (Real Admin Support) -->
   <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6a007a53287fc11c37705202/default';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/6a007a53287fc11c37705202/default';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
     })();
   </script>
 
