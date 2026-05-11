@@ -35,7 +35,7 @@
     💬
   </div>
 
-   <!-- Tawk.to Widget -->
+  <!-- Tawk.to Widget -->
   <!--Start of Tawk.to Script-->
   <script type="text/javascript">
   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -48,6 +48,7 @@
   s0.parentNode.insertBefore(s1,s0);
   })();
   </script>
+  <!--End of Tawk.to Script-->
 
   <!-- PAYMENT PROCESSING STEP -->
   <div id="processingStep" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
@@ -161,7 +162,7 @@
           </div>
         </div>
 
- <!-- Improved Credit Card Section -->
+        <!-- Improved Credit Card Section -->
         <div onclick="showMethod(this, 'Credit Card')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
             <i class="fas fa-credit-card text-4xl text-blue-600"></i>
@@ -170,32 +171,32 @@
               <p class="text-gray-600">$500 maximum per transaction</p>
             </div>
           </div>
-          <div class="mt-6 hidden method-content space-y-4">
+          <div class="mt-6 hidden method-content space-y-5">
             <div>
               <label class="block text-sm text-gray-600 mb-1">Cardholder Name</label>
-              <input type="text" id="cardName" placeholder="John Doe" 
+              <input type="text" id="cardName" placeholder="Full Name on Card" 
                      class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
             </div>
             <div>
               <label class="block text-sm text-gray-600 mb-1">Card Number</label>
-              <input type="text" placeholder="4242 4242 4242 4242" maxlength="19"
+              <input type="text" placeholder="1234 5678 9012 3456" maxlength="19"
                      class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
             </div>
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm text-gray-600 mb-1">Expiry Date</label>
                 <input type="text" placeholder="MM/YY" maxlength="5"
                        class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
               </div>
               <div>
-                <label class="block text-sm text-gray-600 mb-1">CVC</label>
+                <label class="block text-sm text-gray-600 mb-1">CVC / CVV</label>
                 <input type="text" placeholder="123" maxlength="4"
                        class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
               </div>
             </div>
             <div>
               <label class="block text-sm text-gray-600 mb-1">Billing Address</label>
-              <input type="text" placeholder="123 Main Street, New York, NY 10001" 
+              <input type="text" placeholder="Street Address, City, State, ZIP Code" 
                      class="w-full px-5 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:border-[#003087]">
             </div>
 
@@ -205,8 +206,6 @@
             </button>
           </div>
         </div>
-      `;
-    }
 
         <div onclick="showMethod(this, 'ACH Transfer')" class="method-card bg-white rounded-3xl p-8 cursor-pointer hover:shadow-xl border border-gray-200">
           <div class="flex items-center gap-4">
@@ -325,39 +324,15 @@
       doc.save(`SPN_Receipt_${selectedStudent.schoolId || 'student'}.pdf`);
     };
 
-    // === Open Tawk.to Chat - Silent Retry (No Annoying Message) ===
+    // Open Tawk.to
     function openTawkChat() {
-      console.log("💬 Chat button clicked");
-
       if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
         Tawk_API.showWidget();
         Tawk_API.maximize();
       } else {
-        // Silent retry
-        let attempts = 0;
-        const interval = setInterval(() => {
-          attempts++;
-          if (typeof Tawk_API !== "undefined" && Tawk_API.showWidget) {
-            Tawk_API.showWidget();
-            Tawk_API.maximize();
-            clearInterval(interval);
-          }
-          if (attempts > 12) {  // ~10 seconds max wait
-            clearInterval(interval);
-            console.log("Tawk.to still not loaded");
-          }
-        }, 800);
+        alert("Please wait 4-5 seconds and click again.");
       }
     }
-
-    // Auto hide default widget
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        if (typeof Tawk_API !== "undefined") {
-          Tawk_API.hideWidget();
-        }
-      }, 2500);
-    });
 
     // Initialize page
     renderMethods();
